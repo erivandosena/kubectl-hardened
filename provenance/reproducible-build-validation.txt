@@ -1,0 +1,29 @@
+KUBECTL HARDENED - REPRODUCIBLE BUILD VALIDATION
+Release: v1.35.9-go1.26.9-r1
+Validation date: 2026-10-16T00:44:06-03:00
+
+Builder image: local/go1269-alpine318-tools-completo:teste
+Go version: go1.26.9
+GOOS: linux
+GOARCH: amd64
+GOAMD64: v1
+CGO_ENABLED: 0
+GOTOOLCHAIN: local
+GOWORK: /src/go.work
+GOFLAGS: -mod=vendor
+Network: disabled
+
+Build command:
+go build -trimpath -mod=vendor -ldflags="-s -w -X k8s.io/component-base/version.gitVersion=v1.35.9" -o /out/kubectl ./cmd/kubectl
+
+Reference binary SHA256:
+fcc015a755bcf666e058811efebc14a233a596f58f67acb37e906e8f7c19bcbf  /tmp/kubectl-build-1359/binarios/kubectl
+
+Rebuilt binary SHA256:
+fcc015a755bcf666e058811efebc14a233a596f58f67acb37e906e8f7c19bcbf  /tmp/kubectl-1359-rebuild-validation/kubectl
+
+Security patch SHA256:
+699a88385a6ea01fe40c6a18ddfa005b8752c008e707fca7edded43a76cefdb0  patches/kubernetes-v1.35.9-security.patch
+
+Binary comparison: PASS - byte-for-byte identical
+Source reconstruction: PASS - identical to corrected source

@@ -1,0 +1,27 @@
+Upstream source: kubernetes v1.35.9
+Compiler: go1.26.9 linux/amd64
+Build mode: CGO_ENABLED=0; GOOS=linux; GOARCH=amd64; GOAMD64=v1
+Build flags: -trimpath -mod=vendor -ldflags="-s -w -X k8s.io/component-base/version.gitVersion=v1.35.9"
+Workspace: /src/go.work; GOFLAGS=-mod=vendor
+Dependency updates (workspace vendor):
+golang.org/x/crypto v0.57.0
+golang.org/x/mod v0.41.0
+golang.org/x/net v0.60.0
+golang.org/x/sync v0.23.0
+golang.org/x/sys v0.48.0
+golang.org/x/term v0.46.0
+golang.org/x/text v0.42.0
+golang.org/x/tools v0.49.0
+Binary SHA-256: fcc015a755bcf666e058811efebc14a233a596f58f67acb37e906e8f7c19bcbf
+Trivy binary: 0 detected CVEs (gobinary recognized)
+Operational read-only K8s checks: 16 PASS / 16
+Upstream repository: https://github.com/kubernetes/kubernetes
+Upstream tag: v1.35.9
+Upstream tag object: 252f971ca8979f1520da165826b6d93ad0bfd958
+Upstream commit: 329000efd0b26bd78155e51e4df449130f0fca00
+Upstream source archive SHA-256: b390f0c5446a9414e8f0a7019ca54f858251187d193217a8051687bf7a960d01
+Upstream source archive verification: PASS - byte-for-byte identical to official GitHub download
+Original source tree verification: PASS - identical to extracted official archive
+Security patch SHA-256: 699a88385a6ea01fe40c6a18ddfa005b8752c008e707fca7edded43a76cefdb0
+Source reconstruction: PASS - identical to corrected source tree
+Reproducible build: PASS - byte-for-byte identical binary

@@ -1,0 +1,32 @@
+# Compiled binaries: distribute through GitHub Releases
+/bin/kubectl
+
+# Generated archives and artifacts
+*.tar
+*.tar.gz
+*.zip
+*.tmp
+*.log
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+kubeconfig
+kubeconfig.*
+**/.kube/config
+
+# Local build output
+_output/
+dist/
+build-output/
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
