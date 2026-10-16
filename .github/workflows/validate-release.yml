@@ -1,0 +1,70 @@
+name: Validate kubectl hardened release
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/validate-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Linux AMD64 binary
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Download published binary and checksum
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          VERSION="v1.35.9-go1.26.9-r1"
+          BASE="https://github.com/erivandosena/kubectl-hardened/releases/download/$VERSION"
+
+          curl -fL --retry 3 "$BASE/kubectl" -o kubectl
+          curl -fL --retry 3 "$BASE/kubectl.sha256" -o kubectl.sha256
+
+      - name: Verify SHA-256
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          sha256sum -c kubectl.sha256
+
+          echo "fcc015a755bcf666e058811efebc14a233a596f58f67acb37e906e8f7c19bcbf  kubectl" \
+            | sha256sum -c -
+
+      - name: Validate runner architecture and binary
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          test "$(uname -m)" = "x86_64"
+
+          file kubectl
+          file kubectl | grep -q 'ELF 64-bit.*x86-64'
+          file kubectl | grep -q 'statically linked'
+
+          chmod +x kubectl
+          ./kubectl version --client
+
+      - name: Validate in nonroot Distroless container
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          docker run --rm \
+            --platform linux/amd64 \
+            --network none \
+            --mount "type=bind,source=$PWD/kubectl,target=/kubectl,readonly" \
+            --entrypoint /kubectl \
+            gcr.io/distroless/static-debian12:nonroot \
+            version --client
+
+      - name: Final result
+        run: |
+          echo "PASS: kubectl hardened Linux AMD64"
